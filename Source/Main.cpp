@@ -4,6 +4,7 @@
 #pragma hdrstop
 
 #include "Main.h"
+#include "SubForm.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "cxClasses"
@@ -86,5 +87,68 @@ void __fastcall TFormMain::InitProgram() {
 void __fastcall TFormMain::PrintMsg(UnicodeString _str) {
 	int t_Idx = memo->Lines->Add(_str);
     memo->SetCursor(0, t_Idx);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::btn_NewClick(TObject *Sender)
+{
+	static int s_PageNumbering = 1;
+    UnicodeString tempStr = L"";
+
+    tempStr.sprintf(L"New Page %02d", s_PageNumbering++);
+	NotebookTab_Main->Pages->Add(tempStr);
+
+    tempStr.sprintf(L"Current Page Index : %d", NotebookTab_Main->PageIndex);
+    PrintMsg(tempStr);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::btn_DeleteClick(TObject *Sender)
+{
+	// Common
+    UnicodeString tempStr = L"";
+    int t_TabCount = NotebookTab_Main->Pages->Count;
+
+    // Pre-Return
+    if(t_TabCount == 0) {
+     	tempStr.sprintf(L"There is no Pages");
+        PrintMsg(tempStr);
+        return;
+    }
+
+    int t_Idx = NotebookTab_Main->PageIndex;
+
+    // Remove Routine
+	//NotebookTab_Main->Pages->BeginUpdate();
+
+    if(t_Idx == 0 && t_TabCount >= 2) {
+    	NotebookTab_Main->PageIndex = 1;
+    } else {
+    	NotebookTab_Main->PageIndex = t_Idx - 1;
+    }
+
+	NotebookTab_Main->Pages->Delete(t_Idx);
+    //NotebookTab_Main->Pages->EndUpdate();
+
+    tempStr.sprintf(L"Page %d is removed", t_Idx);
+    PrintMsg(tempStr);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::NotebookTab_MainClick(TObject *Sender)
+{
+	UnicodeString tempStr = L"";
+    tempStr.sprintf(L"Current Page Index : %d", NotebookTab_Main->PageIndex);
+    PrintMsg(tempStr);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::btn_TestClick(TObject *Sender)
+{
+	NotebookTab_Main->PageIndex = -1;
+
+	UnicodeString tempStr = L"";
+    tempStr.sprintf(L"Current Page Index : %d", NotebookTab_Main->PageIndex);
+    PrintMsg(tempStr);
 }
 //---------------------------------------------------------------------------

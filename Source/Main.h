@@ -80,14 +80,18 @@ __published:	// IDE-managed Components
 	TdxRibbon *dxRibbon1;
 	TdxBarManager *BarMgr;
 	TdxBar *BarMgrBar1;
-	TdxBarLargeButton *dxBarLargeButton1;
-	TdxBarLargeButton *dxBarLargeButton2;
-	TdxBarLargeButton *dxBarLargeButton3;
+	TdxBarLargeButton *btn_New;
+	TdxBarLargeButton *btn_Test;
+	TdxBarLargeButton *btn_Delete;
 	TdxBar *BarMgrBar2;
 	TdxBarLargeButton *dxBarLargeButton4;
 	TdxBarLargeButton *dxBarLargeButton5;
 	TdxBarLargeButton *dxBarLargeButton6;
 	TAdvMemo *memo;
+	void __fastcall btn_NewClick(TObject *Sender);
+	void __fastcall btn_DeleteClick(TObject *Sender);
+	void __fastcall NotebookTab_MainClick(TObject *Sender);
+	void __fastcall btn_TestClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TFormMain(TComponent* Owner);

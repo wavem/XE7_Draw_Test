@@ -5,6 +5,7 @@
 #include <tchar.h>
 //---------------------------------------------------------------------------
 USEFORM("Main.cpp", FormMain);
+USEFORM("SubForm.cpp", FormSub);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -13,6 +14,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
 		Application->CreateForm(__classid(TFormMain), &FormMain);
+		Application->CreateForm(__classid(TFormSub), &FormSub);
 		Application->Run();
 	}
 	catch (Exception &exception)
