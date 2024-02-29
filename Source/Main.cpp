@@ -92,14 +92,18 @@ void __fastcall TFormMain::PrintMsg(UnicodeString _str) {
 
 void __fastcall TFormMain::btn_NewClick(TObject *Sender)
 {
-	static int s_PageNumbering = 1;
+	// Common
     UnicodeString tempStr = L"";
+    static int s_PageNumber = 1;
 
-    tempStr.sprintf(L"New Page %02d", s_PageNumbering++);
-	NotebookTab_Main->Pages->Add(tempStr);
+    // Add Routine
+    TTabSheet* temp = new TTabSheet(PageControl);
+    temp->PageControl = PageControl;
+    tempStr.sprintf(L"Page %d", s_PageNumber++);
+    temp->Caption = tempStr;
 
-    tempStr.sprintf(L"Current Page Index : %d", NotebookTab_Main->PageIndex);
-    PrintMsg(tempStr);
+    // Set New Page
+    PageControl->ActivePageIndex = temp->PageIndex;
 }
 //---------------------------------------------------------------------------
 
@@ -107,7 +111,7 @@ void __fastcall TFormMain::btn_DeleteClick(TObject *Sender)
 {
 	// Common
     UnicodeString tempStr = L"";
-    int t_TabCount = NotebookTab_Main->Pages->Count;
+    int t_TabCount = PageControl->PageCount;
 
     // Pre-Return
     if(t_TabCount == 0) {
@@ -116,39 +120,20 @@ void __fastcall TFormMain::btn_DeleteClick(TObject *Sender)
         return;
     }
 
-    int t_Idx = NotebookTab_Main->PageIndex;
 
-    // Remove Routine
-	//NotebookTab_Main->Pages->BeginUpdate();
+    int t_Idx = PageControl->ActivePageIndex;
+    PageControl->Pages[t_Idx]->Free();
 
-    if(t_Idx == 0 && t_TabCount >= 2) {
-    	NotebookTab_Main->PageIndex = 1;
-    } else {
-    	NotebookTab_Main->PageIndex = t_Idx - 1;
-    }
-
-	NotebookTab_Main->Pages->Delete(t_Idx);
-    //NotebookTab_Main->Pages->EndUpdate();
 
     tempStr.sprintf(L"Page %d is removed", t_Idx);
     PrintMsg(tempStr);
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFormMain::NotebookTab_MainClick(TObject *Sender)
-{
-	UnicodeString tempStr = L"";
-    tempStr.sprintf(L"Current Page Index : %d", NotebookTab_Main->PageIndex);
-    PrintMsg(tempStr);
-}
-//---------------------------------------------------------------------------
-
 void __fastcall TFormMain::btn_TestClick(TObject *Sender)
 {
-	NotebookTab_Main->PageIndex = -1;
-
 	UnicodeString tempStr = L"";
-    tempStr.sprintf(L"Current Page Index : %d", NotebookTab_Main->PageIndex);
+    tempStr.sprintf(L"Current Page Index : %d", PageControl->ActivePageIndex);
     PrintMsg(tempStr);
 }
 //---------------------------------------------------------------------------

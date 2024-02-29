@@ -75,7 +75,6 @@
 class TFormMain : public TForm
 {
 __published:	// IDE-managed Components
-	TTabbedNotebook *NotebookTab_Main;
 	TdxRibbonTab *dxRibbon1Tab1;
 	TdxRibbon *dxRibbon1;
 	TdxBarManager *BarMgr;
@@ -88,9 +87,9 @@ __published:	// IDE-managed Components
 	TdxBarLargeButton *dxBarLargeButton5;
 	TdxBarLargeButton *dxBarLargeButton6;
 	TAdvMemo *memo;
+	TPageControl *PageControl;
 	void __fastcall btn_NewClick(TObject *Sender);
 	void __fastcall btn_DeleteClick(TObject *Sender);
-	void __fastcall NotebookTab_MainClick(TObject *Sender);
 	void __fastcall btn_TestClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations

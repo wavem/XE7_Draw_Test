@@ -15,31 +15,6 @@ object FormMain: TFormMain
   Position = poDesktopCenter
   PixelsPerInch = 96
   TextHeight = 13
-  object NotebookTab_Main: TTabbedNotebook
-    Left = 0
-    Top = 124
-    Width = 1023
-    Height = 652
-    Align = alClient
-    TabFont.Charset = DEFAULT_CHARSET
-    TabFont.Color = clBtnText
-    TabFont.Height = -11
-    TabFont.Name = 'Tahoma'
-    TabFont.Style = []
-    TabOrder = 0
-    OnClick = NotebookTab_MainClick
-    ExplicitLeft = 80
-    ExplicitTop = 160
-    ExplicitWidth = 689
-    ExplicitHeight = 521
-    object TTabPage
-      Left = 4
-      Top = 24
-      Caption = 'Default'
-      ExplicitWidth = 292
-      ExplicitHeight = 222
-    end
-  end
   object dxRibbon1: TdxRibbon
     Left = 0
     Top = 0
@@ -48,7 +23,7 @@ object FormMain: TFormMain
     BarManager = BarMgr
     ColorSchemeName = 'DevExpressDarkStyle'
     Contexts = <>
-    TabOrder = 1
+    TabOrder = 0
     TabStop = False
     ExplicitWidth = 957
     object dxRibbon1Tab1: TdxRibbonTab
@@ -160,7 +135,7 @@ object FormMain: TFormMain
     SelBkColor = clNavy
     ShowRightMargin = True
     SmartTabs = False
-    TabOrder = 6
+    TabOrder = 5
     TabStop = True
     TrimTrailingSpaces = False
     UILanguage.ScrollHint = 'Row'
@@ -177,6 +152,18 @@ object FormMain: TFormMain
     UseStyler = True
     Version = '3.4.1.0'
     WordWrap = wwNone
+  end
+  object PageControl: TPageControl
+    Left = 0
+    Top = 124
+    Width = 1023
+    Height = 652
+    Align = alClient
+    TabOrder = 6
+    ExplicitLeft = 64
+    ExplicitTop = 200
+    ExplicitWidth = 633
+    ExplicitHeight = 393
   end
   object BarMgr: TdxBarManager
     Font.Charset = DEFAULT_CHARSET
@@ -672,23 +659,23 @@ object FormMain: TFormMain
       Width = 60
     end
     object dxBarLargeButton4: TdxBarLargeButton
-      Caption = 'New Button'
+      Caption = 'New Page'
       Category = 0
-      Hint = 'New Button'
+      Hint = 'New Page'
       Visible = ivAlways
       Width = 60
     end
     object dxBarLargeButton5: TdxBarLargeButton
-      Caption = 'New Button'
+      Caption = 'Delete Page'
       Category = 0
-      Hint = 'New Button'
+      Hint = 'Delete Page'
       Visible = ivAlways
       Width = 60
     end
     object dxBarLargeButton6: TdxBarLargeButton
-      Caption = 'New Button'
+      Caption = 'Page Test'
       Category = 0
-      Hint = 'New Button'
+      Hint = 'Page Test'
       Visible = ivAlways
       Width = 60
     end
