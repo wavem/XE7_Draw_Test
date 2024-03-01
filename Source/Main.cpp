@@ -99,11 +99,25 @@ void __fastcall TFormMain::btn_NewClick(TObject *Sender)
     // Add Routine
     TTabSheet* temp = new TTabSheet(PageControl);
     temp->PageControl = PageControl;
-    tempStr.sprintf(L"Page %d", s_PageNumber++);
+    tempStr.sprintf(L"Page%d", s_PageNumber++);
     temp->Caption = tempStr;
 
     // Set New Page
     PageControl->ActivePageIndex = temp->PageIndex;
+
+
+    TPanel* t_Panel = new TPanel(PageControl->ActivePage);
+    t_Panel->Parent = PageControl->ActivePage;
+
+    t_Panel->Align = alClient;
+    t_Panel->Name = L"pn_" + tempStr;
+    t_Panel->Color = clRed; // Doesn't works
+    t_Panel->Caption = L"Caption_" + tempStr;
+
+    t_Panel->Visible = true;
+    t_Panel->Show();
+
+
 }
 //---------------------------------------------------------------------------
 
@@ -120,10 +134,8 @@ void __fastcall TFormMain::btn_DeleteClick(TObject *Sender)
         return;
     }
 
-
     int t_Idx = PageControl->ActivePageIndex;
     PageControl->Pages[t_Idx]->Free();
-
 
     tempStr.sprintf(L"Page %d is removed", t_Idx);
     PrintMsg(tempStr);
