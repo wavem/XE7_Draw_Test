@@ -94,6 +94,7 @@ void __fastcall TFormMain::btn_NewClick(TObject *Sender)
 {
 	// Common
     UnicodeString tempStr = L"";
+    UnicodeString t_pnName = L"";
     static int s_PageNumber = 1;
 
     // Add Routine
@@ -110,7 +111,8 @@ void __fastcall TFormMain::btn_NewClick(TObject *Sender)
     t_Panel->Parent = PageControl->ActivePage;
 
     t_Panel->Align = alClient;
-    t_Panel->Name = L"pn_" + tempStr;
+    t_pnName = L"pn_" + tempStr;
+    t_Panel->Name = t_pnName;
     t_Panel->Color = clRed; // Doesn't works
     t_Panel->Caption = L"Caption_" + tempStr;
 
@@ -118,6 +120,10 @@ void __fastcall TFormMain::btn_NewClick(TObject *Sender)
     t_Panel->Show();
 
 
+    // Add Sub-Form Routine
+    TFormSub* p_SubForm = new TFormSub(t_Panel);
+    p_SubForm->Parent = t_Panel;
+    p_SubForm->Visible = true;
 }
 //---------------------------------------------------------------------------
 
