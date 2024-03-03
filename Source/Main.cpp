@@ -153,5 +153,10 @@ void __fastcall TFormMain::btn_TestClick(TObject *Sender)
 	UnicodeString tempStr = L"";
     tempStr.sprintf(L"Current Page Index : %d", PageControl->ActivePageIndex);
     PrintMsg(tempStr);
+
+
+    TFormSub* p_SubForm = (TFormSub*)PageControl->ActivePage->Components[0]->Components[0];
+    p_SubForm->Caption = L"temptemp";
+
 }
 //---------------------------------------------------------------------------
