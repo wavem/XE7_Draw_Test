@@ -12,6 +12,10 @@ object FormSub: TFormSub
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnMouseDown = FormMouseDown
+  OnMouseMove = FormMouseMove
+  OnMouseUp = FormMouseUp
+  OnPaint = FormPaint
   PixelsPerInch = 96
   TextHeight = 13
 end

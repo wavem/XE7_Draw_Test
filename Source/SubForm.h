@@ -4,6 +4,7 @@
 #define SubFormH
 //---------------------------------------------------------------------------
 #include "Define.h"
+#include <vector>
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>
@@ -13,19 +14,34 @@
 class TFormSub : public TForm
 {
 __published:	// IDE-managed Components
+	void __fastcall FormMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          int X, int Y);
+	void __fastcall FormMouseMove(TObject *Sender, TShiftState Shift, int X, int Y);
+	void __fastcall FormMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          int X, int Y);
+	void __fastcall FormPaint(TObject *Sender);
+
 private:	// User declarations
 public:		// User declarations
 	__fastcall TFormSub(TComponent* Owner);
 
+public: // Member Variables
+	bool m_bIsDrawing;
+    std::vector<CDrawItem> m_vDrawItem;
+    TRect m_Rect;
+
+public: // Member Functions
+	bool __fastcall AddDrawItem(TRect _rect, int _Type);
 
 public: // User Message Handler
+	int m_ReceivedObjectType;
 	void __fastcall ReceiveCmdFromMainForm(TMessage &_msg);
 
 
 
 
 BEGIN_MESSAGE_MAP
-	MESSAGE_HANDLER(MSG_CMD_DRAW_SHAPE, TMessage, ReceiveCmdFromMainForm)
+	MESSAGE_HANDLER(MSG_CMD_DRAW_ITEM, TMessage, ReceiveCmdFromMainForm)
 END_MESSAGE_MAP(TForm)
 };
 //---------------------------------------------------------------------------

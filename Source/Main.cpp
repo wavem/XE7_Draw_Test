@@ -170,7 +170,7 @@ void __fastcall TFormMain::dxBarLargeButton4Click(TObject *Sender)
 
     // Get Selected Form
     TFormSub* p_SubForm = (TFormSub*)PageControl->ActivePage->Components[0]->Components[0];
-    unsigned int t_cmd = 1;
-    SendMessage(p_SubForm->Handle, MSG_CMD_DRAW_SHAPE, t_cmd, 0x10);
+    unsigned int t_ObjectType = 1; // Rectangle
+    SendMessage(p_SubForm->Handle, MSG_CMD_DRAW_ITEM, t_ObjectType, 0x10);
 }
 //---------------------------------------------------------------------------
