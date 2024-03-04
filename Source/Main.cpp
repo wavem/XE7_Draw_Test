@@ -154,9 +154,23 @@ void __fastcall TFormMain::btn_TestClick(TObject *Sender)
     tempStr.sprintf(L"Current Page Index : %d", PageControl->ActivePageIndex);
     PrintMsg(tempStr);
 
-
+    // Test Code
     TFormSub* p_SubForm = (TFormSub*)PageControl->ActivePage->Components[0]->Components[0];
     p_SubForm->Caption = L"temptemp";
+}
+//---------------------------------------------------------------------------
 
+void __fastcall TFormMain::dxBarLargeButton4Click(TObject *Sender)
+{
+	// Pre Return
+    if(PageControl->PageCount == 0) {
+    	PrintMsg(L"There is no Pages");
+        return;
+    }
+
+    // Get Selected Form
+    TFormSub* p_SubForm = (TFormSub*)PageControl->ActivePage->Components[0]->Components[0];
+    unsigned int t_cmd = 1;
+    SendMessage(p_SubForm->Handle, MSG_CMD_DRAW_SHAPE, t_cmd, 0x10);
 }
 //---------------------------------------------------------------------------

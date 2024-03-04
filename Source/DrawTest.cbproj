@@ -113,6 +113,10 @@
         <BCC_PCHName_Clang>DrawTestPCH1.h</BCC_PCHName_Clang>
     </PropertyGroup>
     <ItemGroup>
+        <CppCompile Include="Define.cpp">
+            <DependentOn>Define.h</DependentOn>
+            <BuildOrder>4</BuildOrder>
+        </CppCompile>
         <CppCompile Include="DrawTest.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>

@@ -3,6 +3,8 @@
 #ifndef MainH
 #define MainH
 //---------------------------------------------------------------------------
+#include "Define.h"
+//---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>
 #include <Vcl.StdCtrls.hpp>
@@ -91,6 +93,7 @@ __published:	// IDE-managed Components
 	void __fastcall btn_NewClick(TObject *Sender);
 	void __fastcall btn_DeleteClick(TObject *Sender);
 	void __fastcall btn_TestClick(TObject *Sender);
+	void __fastcall dxBarLargeButton4Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TFormMain(TComponent* Owner);

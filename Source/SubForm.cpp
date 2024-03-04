@@ -14,3 +14,9 @@ __fastcall TFormSub::TFormSub(TComponent* Owner)
 {
 }
 //---------------------------------------------------------------------------
+
+void __fastcall TFormSub::ReceiveCmdFromMainForm(TMessage &_msg) {
+	this->Caption = L"Received Message";
+    this->Cursor = crCross;
+}
+//---------------------------------------------------------------------------
