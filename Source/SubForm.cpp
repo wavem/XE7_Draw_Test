@@ -39,6 +39,12 @@ void __fastcall TFormSub::ReceiveCmdFromMainForm(TMessage &_msg) {
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TFormSub::PrintMsg(UnicodeString _str) {
+	UnicodeString tempStr = _str;
+	SendMessage(FormMain->Handle, MSG_SUB_TO_MAIN, (unsigned int)&tempStr, 0x10);
+}
+//---------------------------------------------------------------------------
+
 void __fastcall TFormSub::FormMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y)
 {
@@ -47,6 +53,8 @@ void __fastcall TFormSub::FormMouseDown(TObject *Sender, TMouseButton Button, TS
     	m_Rect.top = Y;
     	m_Rect.left = X;
     }
+
+    PrintMsg(L"Mouse Down");
 }
 //---------------------------------------------------------------------------
 

@@ -109,6 +109,13 @@ public: // Member Functions
     void __fastcall PrintMsg(UnicodeString _str);
 
 
+
+public: // User Message Handler
+	void __fastcall ReceiveMsgFromSubForm(TMessage &_msg);
+
+BEGIN_MESSAGE_MAP
+	MESSAGE_HANDLER(MSG_SUB_TO_MAIN, TMessage, ReceiveMsgFromSubForm)
+END_MESSAGE_MAP(TForm)
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TFormMain *FormMain;
