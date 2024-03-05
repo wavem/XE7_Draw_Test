@@ -8,7 +8,7 @@
 
 // Version Info
 #define PROGRAM_VERSION			L"Version : 0.0.1"
-#define PROGRAM_UPDATE_DATE     L"Update Date : 2024-03-05  PM 21:27"
+#define PROGRAM_UPDATE_DATE     L"Update Date : 2024-03-05  PM 22:12"
 
 
 // MESSAGE ID

@@ -37,6 +37,17 @@ public: // Member Variables
     TRect m_RTRect;
     TRect m_RBRect;
 
+
+    bool m_bCanMoving;   // Moving 가능한 상태
+    bool m_bCanResizing; // Resizing 가능한 상태
+    bool m_bNowMoving;   // 현재 Moving 중
+    bool m_bNowResizing; // 현재 Resizing 중
+
+    int m_MovingX;
+    int m_MovingY;
+
+    CDrawItem* m_SelectedItem;
+
 public: // Member Functions
 	bool __fastcall AddDrawItem(TRect _rect, int _Type);
     void __fastcall PrintMsg(UnicodeString _str);

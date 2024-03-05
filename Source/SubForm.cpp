@@ -17,6 +17,13 @@ __fastcall TFormSub::TFormSub(TComponent* Owner)
 	m_bIsDrawing = false;
     m_ReceivedObjectType = 0;
     m_bIsFirstClicked = false;
+
+    m_bCanMoving = false;   // Moving 가능한 상태
+    m_bCanResizing = false; // Resizing 가능한 상태
+    m_bNowMoving = false;   // 현재 Moving 중
+    m_bNowResizing = false; // 현재 Resizing 중
+
+    m_SelectedItem = NULL;
 }
 //---------------------------------------------------------------------------
 
@@ -48,6 +55,7 @@ void __fastcall TFormSub::PrintMsg(UnicodeString _str) {
 void __fastcall TFormSub::FormMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y)
 {
+	// Drawing Routine
     if(m_bIsDrawing) {
     	m_bIsFirstClicked = true;
     	m_Rect.top = Y;
@@ -55,18 +63,29 @@ void __fastcall TFormSub::FormMouseDown(TObject *Sender, TMouseButton Button, TS
         return;
     }
 
+    // Common
+    UnicodeString tempStr = L"";
+
+    // Moving Routine
+    if(m_bCanMoving) { // bCanMoving 이 참이라함은, 이미 선택된 객체가 있다는 소리임.
+        m_bNowMoving = true;
+        m_Rect = m_SelectedItem->rect;
+        m_MovingX = X;
+        m_MovingY = Y;
+        return;
+    }
+
+    // Select & Unselect Routine
     TPoint t_Point;
     t_Point.x = X;
     t_Point.y = Y;
-
-    UnicodeString tempStr = L"";
-
     CDrawItem* t_DrawItem = GetDrawItem(t_Point);
     if(t_DrawItem) {
     	tempStr = L"Exist : ";
     	tempStr += t_DrawItem->Name;
         UnSelectAllItem();
         t_DrawItem->bIsSelected = true;
+        m_SelectedItem = t_DrawItem;
         Invalidate();
     	PrintMsg(tempStr);
     } else {
@@ -75,6 +94,11 @@ void __fastcall TFormSub::FormMouseDown(TObject *Sender, TMouseButton Button, TS
         Invalidate();
     	PrintMsg(L"none");
     }
+
+    // Moving Routine
+
+
+    // Re-Sizing Routine
 }
 //---------------------------------------------------------------------------
 
@@ -88,6 +112,9 @@ void __fastcall TFormSub::UnSelectAllItem() {
     m_LBRect = TRect(-1, -1, -1, -1);
     m_RTRect = TRect(-1, -1, -1, -1);
     m_RBRect = TRect(-1, -1, -1, -1);
+
+    // Delete Selected Item
+    m_SelectedItem = NULL;
 }
 //---------------------------------------------------------------------------
 
@@ -114,21 +141,37 @@ void __fastcall TFormSub::FormMouseMove(TObject *Sender, TShiftState Shift, int 
 
         Invalidate();
         this->Canvas->DrawFocusRect(m_Rect);
+        return;
+    }
+
+    // Moving Routine
+    if(m_bNowMoving) {
+    	m_SelectedItem->rect.left = m_Rect.left + (X - m_MovingX);
+        m_SelectedItem->rect.top = m_Rect.top + (Y - m_MovingY);
+        m_SelectedItem->rect.right = m_Rect.right + (X - m_MovingX);
+        m_SelectedItem->rect.bottom = m_Rect.bottom + (Y - m_MovingY);
+    	Invalidate();
+        return;
     }
 
     // Check if in the Rect for Moving
     if(m_LTRect.Contains(TPoint(X, Y)) || m_RBRect.Contains(TPoint(X, Y))) {
     	this->Cursor = crSizeNWSE;
+        m_bCanResizing = true;
     } else if(m_LBRect.Contains(TPoint(X, Y)) || m_RTRect.Contains(TPoint(X, Y))) {
     	this->Cursor = crSizeNESW;
+        m_bCanResizing = true;
     } else {
     	// Check Re-Sizing Rect
     	for(int i = 0 ; i < m_vDrawItem.size() ; i++) {
             if(m_vDrawItem[i].bIsSelected) {
                 if(m_vDrawItem[i].rect.Contains(TPoint(X, Y))) {
                     this->Cursor = crSizeAll;
+                    m_bCanMoving = true;
                 } else {
                     this->Cursor = crDefault;
+                    m_bCanMoving = false;
+                    m_bCanResizing = false;
                 }
             }
         }
@@ -139,17 +182,26 @@ void __fastcall TFormSub::FormMouseMove(TObject *Sender, TShiftState Shift, int 
 void __fastcall TFormSub::FormMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y)
 {
+	// Drawing Routine
 	if(m_bIsDrawing) {
     	m_bIsDrawing = false;
         this->Canvas->Rectangle(m_Rect);
 
         // Add Draw Item Routine Here
+        UnSelectAllItem();
     	AddDrawItem(m_Rect, m_ReceivedObjectType);
 
         // Reset Routine
     	m_ReceivedObjectType = 0;
     	this->Cursor = crDefault;
     	m_bIsFirstClicked = false;
+        Invalidate();
+        return;
+    }
+
+    // Moving Routine
+    if(m_bNowMoving) {
+        m_bNowMoving = false;
     }
 }
 //---------------------------------------------------------------------------
@@ -167,12 +219,16 @@ bool __fastcall TFormSub::AddDrawItem(TRect _rect, int _Type) {
 
     // Set Inner Property
     t_DrawItem.rect = _rect;
-    t_DrawItem.bIsSelected = false;
+    t_DrawItem.bIsSelected = true;
 
+
+	// Add to Member Vector
     if(_Type = 1) { // Shape
     	m_vDrawItem.push_back(t_DrawItem);
     }
 
+    // Set Selected Item
+	m_SelectedItem = &m_vDrawItem.back();
 
     // End Routine
     t_ID++;
