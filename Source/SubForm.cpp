@@ -54,7 +54,34 @@ void __fastcall TFormSub::FormMouseDown(TObject *Sender, TMouseButton Button, TS
     	m_Rect.left = X;
     }
 
-    PrintMsg(L"Mouse Down");
+
+    TPoint t_Point;
+    t_Point.x = X;
+    t_Point.y = Y;
+
+    UnicodeString tempStr = L"";
+
+    CDrawItem* t_DrawItem = GetDrawItem(t_Point);
+    if(t_DrawItem) {
+
+    	tempStr = L"Exist : ";
+    	tempStr += t_DrawItem->Name;
+    	PrintMsg(tempStr);
+
+    } else {
+    	PrintMsg(L"none");
+    }
+}
+//---------------------------------------------------------------------------
+
+CDrawItem* __fastcall TFormSub::GetDrawItem(TPoint _point) {
+
+	for(int i = 0 ; i < m_vDrawItem.size() ; i++) {
+        if(m_vDrawItem[i].rect.Contains(_point)) {
+        	return &m_vDrawItem[i];
+        }
+    }
+    return NULL;
 }
 //---------------------------------------------------------------------------
 
@@ -74,24 +101,31 @@ void __fastcall TFormSub::FormMouseMove(TObject *Sender, TShiftState Shift, int 
 void __fastcall TFormSub::FormMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y)
 {
-	m_bIsDrawing = false;
+	if(m_bIsDrawing) {
+    	m_bIsDrawing = false;
+        this->Canvas->Rectangle(m_Rect);
 
-    this->Canvas->Rectangle(m_Rect);
+        // Add Draw Item Routine Here
+    	AddDrawItem(m_Rect, m_ReceivedObjectType);
 
-    // Add Draw Item Routine Here
-    AddDrawItem(m_Rect, m_ReceivedObjectType);
-
-    // Reset Routine
-    m_ReceivedObjectType = 0;
-    this->Cursor = crDefault;
-    m_bIsFirstClicked = false;
+        // Reset Routine
+    	m_ReceivedObjectType = 0;
+    	this->Cursor = crDefault;
+    	m_bIsFirstClicked = false;
+    }
 }
 //---------------------------------------------------------------------------
 
 bool __fastcall TFormSub::AddDrawItem(TRect _rect, int _Type) {
 
+	UnicodeString tempStr = L"";
+    static unsigned int t_ID = 0;
 	CDrawItem t_DrawItem;
     CShape t_Shape;
+
+    // Making ID
+    tempStr.sprintf(L"Type:%d, ID:%d", _Type, t_ID);
+    t_DrawItem.Name = tempStr;
 
     t_DrawItem.rect = _rect;
 
@@ -100,6 +134,8 @@ bool __fastcall TFormSub::AddDrawItem(TRect _rect, int _Type) {
     }
 
 
+    // End Routine
+    t_ID++;
 	return true;
 }
 //---------------------------------------------------------------------------

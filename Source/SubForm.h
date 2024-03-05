@@ -35,6 +35,7 @@ public: // Member Variables
 public: // Member Functions
 	bool __fastcall AddDrawItem(TRect _rect, int _Type);
     void __fastcall PrintMsg(UnicodeString _str);
+    CDrawItem* __fastcall GetDrawItem(TPoint _point);
 
 public: // User Message Handler
 	int m_ReceivedObjectType;

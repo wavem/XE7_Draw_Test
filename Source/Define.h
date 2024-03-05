@@ -8,7 +8,7 @@
 
 // Version Info
 #define PROGRAM_VERSION			L"Version : 0.0.1"
-#define PROGRAM_UPDATE_DATE     L"Update Date : 2024-03-05  PM 18:22"
+#define PROGRAM_UPDATE_DATE     L"Update Date : 2024-03-05  PM 18:43"
 
 
 // MESSAGE ID
@@ -23,6 +23,9 @@ class CDrawItem {
 
 public: // Inner Property
 	TRect rect;
+    UnicodeString Name;
+    bool bIsSelected;
+    int Z_Order;
 
 public: // Common Property
 	int Top;
