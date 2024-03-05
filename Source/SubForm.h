@@ -32,10 +32,16 @@ public: // Member Variables
     TRect m_Rect;
     bool m_bIsFirstClicked;
 
+    TRect m_LTRect;
+    TRect m_LBRect;
+    TRect m_RTRect;
+    TRect m_RBRect;
+
 public: // Member Functions
 	bool __fastcall AddDrawItem(TRect _rect, int _Type);
     void __fastcall PrintMsg(UnicodeString _str);
     CDrawItem* __fastcall GetDrawItem(TPoint _point);
+    void __fastcall UnSelectAllItem();
 
 public: // User Message Handler
 	int m_ReceivedObjectType;
