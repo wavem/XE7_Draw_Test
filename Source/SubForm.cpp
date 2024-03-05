@@ -75,6 +75,15 @@ void __fastcall TFormSub::FormMouseDown(TObject *Sender, TMouseButton Button, TS
         return;
     }
 
+    // Re-Sizing Routine
+    if(m_bCanResizing) {
+    	m_bNowResizing = true;
+        m_Rect = m_SelectedItem->rect;
+        m_MovingX = X;
+        m_MovingY = Y;
+        return;
+    }
+
     // Select & Unselect Routine
     TPoint t_Point;
     t_Point.x = X;
@@ -94,11 +103,6 @@ void __fastcall TFormSub::FormMouseDown(TObject *Sender, TMouseButton Button, TS
         Invalidate();
     	PrintMsg(L"none");
     }
-
-    // Moving Routine
-
-
-    // Re-Sizing Routine
 }
 //---------------------------------------------------------------------------
 
@@ -154,13 +158,68 @@ void __fastcall TFormSub::FormMouseMove(TObject *Sender, TShiftState Shift, int 
         return;
     }
 
+    // Re-Sizing Routine
+    int t_dx = 0;
+    int t_dy = 0;
+    if(m_bNowResizing) {
+    	if(m_ResizingDirection == RESIZING_DIR_LEFTTOP) {
+        	t_dx = m_Rect.left + (X - m_MovingX);
+            t_dy = m_Rect.top + (Y - m_MovingY);
+            if(t_dx <= m_Rect.right - SIZE_MINIMUM && t_dy <= m_Rect.bottom - SIZE_MINIMUM) {
+            	m_SelectedItem->rect.left = t_dx;
+        		m_SelectedItem->rect.top = t_dy;
+            }
+        } else if(m_ResizingDirection == RESIZING_DIR_LEFTBOTTOM) {
+        	t_dx = m_Rect.left + (X - m_MovingX);
+            t_dy = m_Rect.bottom + (Y - m_MovingY);
+            if(t_dx <= m_Rect.right - SIZE_MINIMUM && t_dy >= m_Rect.top + SIZE_MINIMUM) {
+            	m_SelectedItem->rect.left = t_dx;
+            	m_SelectedItem->rect.bottom = t_dy;
+            }
+        } else if(m_ResizingDirection == RESIZING_DIR_RIGHTTOP) {
+        	t_dx = m_Rect.right + (X - m_MovingX);
+            t_dy = m_Rect.top + (Y - m_MovingY);
+            if(t_dx >= m_Rect.left + SIZE_MINIMUM && t_dy <= m_Rect.bottom - SIZE_MINIMUM) {
+            	m_SelectedItem->rect.right = t_dx;
+        		m_SelectedItem->rect.top = t_dy;
+            }
+        } else if(m_ResizingDirection == RESIZING_DIR_RIGHTBOTTOM) {
+        	t_dx = m_Rect.right + (X - m_MovingX);
+            t_dy = m_Rect.bottom + (Y - m_MovingY);
+            if(t_dx >= m_Rect.left + SIZE_MINIMUM && t_dy >= m_Rect.top + SIZE_MINIMUM) {
+            	m_SelectedItem->rect.right = t_dx;
+        		m_SelectedItem->rect.bottom = t_dy;
+            }
+        } else {
+            // Do Notting
+            // 아마도 취소 루틴을 넣어야 할 듯?
+		}
+
+        Invalidate();
+    	return;
+    }
+
     // Check if in the Rect for Moving
-    if(m_LTRect.Contains(TPoint(X, Y)) || m_RBRect.Contains(TPoint(X, Y))) {
-    	this->Cursor = crSizeNWSE;
+    if(m_LTRect.Contains(TPoint(X, Y))) {
+        this->Cursor = crSizeNWSE;
         m_bCanResizing = true;
-    } else if(m_LBRect.Contains(TPoint(X, Y)) || m_RTRect.Contains(TPoint(X, Y))) {
+        m_bCanMoving = false;
+        m_ResizingDirection = RESIZING_DIR_LEFTTOP;
+    } else if(m_RBRect.Contains(TPoint(X, Y))) {
+		this->Cursor = crSizeNWSE;
+        m_bCanResizing = true;
+        m_bCanMoving = false;
+        m_ResizingDirection = RESIZING_DIR_RIGHTBOTTOM;
+    } else if(m_LBRect.Contains(TPoint(X, Y))) {
     	this->Cursor = crSizeNESW;
         m_bCanResizing = true;
+        m_bCanMoving = false;
+        m_ResizingDirection = RESIZING_DIR_LEFTBOTTOM;
+    } else if(m_RTRect.Contains(TPoint(X, Y))) {
+    	this->Cursor = crSizeNESW;
+        m_bCanResizing = true;
+        m_bCanMoving = false;
+        m_ResizingDirection = RESIZING_DIR_RIGHTTOP;
     } else {
     	// Check Re-Sizing Rect
     	for(int i = 0 ; i < m_vDrawItem.size() ; i++) {
@@ -202,6 +261,11 @@ void __fastcall TFormSub::FormMouseUp(TObject *Sender, TMouseButton Button, TShi
     // Moving Routine
     if(m_bNowMoving) {
         m_bNowMoving = false;
+    }
+
+    // Re-Sizing Routine
+    if(m_bNowResizing) {
+    	m_bNowResizing = false;
     }
 }
 //---------------------------------------------------------------------------

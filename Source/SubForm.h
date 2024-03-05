@@ -42,7 +42,7 @@ public: // Member Variables
     bool m_bCanResizing; // Resizing 가능한 상태
     bool m_bNowMoving;   // 현재 Moving 중
     bool m_bNowResizing; // 현재 Resizing 중
-
+    int m_ResizingDirection;
     int m_MovingX;
     int m_MovingY;
 

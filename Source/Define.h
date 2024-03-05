@@ -8,7 +8,7 @@
 
 // Version Info
 #define PROGRAM_VERSION			L"Version : 0.0.1"
-#define PROGRAM_UPDATE_DATE     L"Update Date : 2024-03-05  PM 22:12"
+#define PROGRAM_UPDATE_DATE     L"Update Date : 2024-03-05  PM 22:47"
 
 
 // MESSAGE ID
@@ -16,6 +16,16 @@
 
 #define MSG_SUB_TO_MAIN		60001
 
+// SIZE
+#define SIZE_MINIMUM	10
+
+// RESIZING DIRECTION
+#define RESIZING_DIR_LEFTTOP		1
+#define RESIZING_DIR_LEFTBOTTOM		2
+#define RESIZING_DIR_RIGHTTOP		3
+#define RESIZING_DIR_RIGHTBOTTOM	4
+#define RESIZING_DIR_RIGHT			5
+#define RESIZING_DIR_BOTTOM			6
 
 
 
