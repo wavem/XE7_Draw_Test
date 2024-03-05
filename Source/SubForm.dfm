@@ -12,7 +12,11 @@ object FormSub: TFormSub
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Visible = True
+  OnClose = FormClose
   OnMouseDown = FormMouseDown
+  OnMouseEnter = FormMouseEnter
+  OnMouseLeave = FormMouseLeave
   OnMouseMove = FormMouseMove
   OnMouseUp = FormMouseUp
   OnPaint = FormPaint

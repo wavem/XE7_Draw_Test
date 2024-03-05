@@ -20,6 +20,9 @@ __published:	// IDE-managed Components
 	void __fastcall FormMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y);
 	void __fastcall FormPaint(TObject *Sender);
+	void __fastcall FormMouseLeave(TObject *Sender);
+	void __fastcall FormMouseEnter(TObject *Sender);
+	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 
 private:	// User declarations
 public:		// User declarations
@@ -29,6 +32,8 @@ public: // Member Variables
 	bool m_bIsDrawing;
     std::vector<CDrawItem> m_vDrawItem;
     TRect m_Rect;
+    bool m_bIsIn;
+    bool m_bIsFirstClicked;
 
 public: // Member Functions
 	bool __fastcall AddDrawItem(TRect _rect, int _Type);

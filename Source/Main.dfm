@@ -13,6 +13,7 @@ object FormMain: TFormMain
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnClick = FormClick
   PixelsPerInch = 96
   TextHeight = 13
   object dxRibbon1: TdxRibbon
@@ -159,6 +160,7 @@ object FormMain: TFormMain
     Height = 652
     Align = alClient
     TabOrder = 6
+    OnMouseLeave = PageControlMouseLeave
   end
   object BarMgr: TdxBarManager
     Font.Charset = DEFAULT_CHARSET
@@ -220,7 +222,7 @@ object FormMain: TFormMain
       ItemLinks = <
         item
           Visible = True
-          ItemName = 'dxBarLargeButton4'
+          ItemName = 'btn_Shape_Rect'
         end
         item
           Visible = True
@@ -653,12 +655,12 @@ object FormMain: TFormMain
         0000000000000000000000000000000000000000000000000000}
       Width = 60
     end
-    object dxBarLargeButton4: TdxBarLargeButton
+    object btn_Shape_Rect: TdxBarLargeButton
       Caption = 'Rect'
       Category = 0
       Hint = 'Rect'
       Visible = ivAlways
-      OnClick = dxBarLargeButton4Click
+      OnClick = btn_Shape_RectClick
       HotGlyph.Data = {
         36100000424D3610000000000000360000002800000020000000200000000100
         2000000000000010000000000000000000000000000000000000000000000000
@@ -806,5 +808,10 @@ object FormMain: TFormMain
       Visible = ivAlways
       Width = 60
     end
+  end
+  object Timer1: TTimer
+    Interval = 500
+    OnTimer = Timer1Timer
+    Left = 752
   end
 end

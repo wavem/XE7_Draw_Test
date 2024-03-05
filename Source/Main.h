@@ -4,6 +4,7 @@
 #define MainH
 //---------------------------------------------------------------------------
 #include "Define.h"
+#include "SubForm.h"
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>
@@ -73,6 +74,7 @@
 #include <Vcl.ComCtrls.hpp>
 #include <Vcl.TabNotBk.hpp>
 #include "AdvMemo.hpp"
+#include <Vcl.ExtCtrls.hpp>
 //---------------------------------------------------------------------------
 class TFormMain : public TForm
 {
@@ -85,24 +87,31 @@ __published:	// IDE-managed Components
 	TdxBarLargeButton *btn_Test;
 	TdxBarLargeButton *btn_Delete;
 	TdxBar *BarMgrBar2;
-	TdxBarLargeButton *dxBarLargeButton4;
+	TdxBarLargeButton *btn_Shape_Rect;
 	TdxBarLargeButton *dxBarLargeButton5;
 	TdxBarLargeButton *dxBarLargeButton6;
 	TAdvMemo *memo;
 	TPageControl *PageControl;
+	TTimer *Timer1;
 	void __fastcall btn_NewClick(TObject *Sender);
 	void __fastcall btn_DeleteClick(TObject *Sender);
 	void __fastcall btn_TestClick(TObject *Sender);
-	void __fastcall dxBarLargeButton4Click(TObject *Sender);
+	void __fastcall btn_Shape_RectClick(TObject *Sender);
+	void __fastcall PageControlMouseLeave(TObject *Sender);
+	void __fastcall Timer1Timer(TObject *Sender);
+	void __fastcall FormClick(TObject *Sender);
+
 private:	// User declarations
 public:		// User declarations
 	__fastcall TFormMain(TComponent* Owner);
 
 public: // Member Variables
+	TFormSub* m_SubForm;
 
 public: // Member Functions
 	void __fastcall InitProgram();
     void __fastcall PrintMsg(UnicodeString _str);
+
 
 };
 //---------------------------------------------------------------------------
