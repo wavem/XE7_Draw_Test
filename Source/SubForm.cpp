@@ -16,7 +16,6 @@ __fastcall TFormSub::TFormSub(TComponent* Owner)
 	// Init Member Variables
 	m_bIsDrawing = false;
     m_ReceivedObjectType = 0;
-    m_bIsIn = false;
     m_bIsFirstClicked = false;
 }
 //---------------------------------------------------------------------------
@@ -99,9 +98,6 @@ bool __fastcall TFormSub::AddDrawItem(TRect _rect, int _Type) {
 
 void __fastcall TFormSub::FormPaint(TObject *Sender)
 {
-
-	//if(!this->Focused()) return; // FOCUS 를 Control 하기 어렵네.. 바로 아래 라인처럼 가자..
-    //if(!m_bIsIn) return;
     if(m_bIsDrawing) this->Canvas->DrawFocusRect(m_Rect);
 
 	for(int i = 0 ; i < m_vDrawItem.size() ; i++) {
@@ -109,70 +105,10 @@ void __fastcall TFormSub::FormPaint(TObject *Sender)
     }
 
     //Invalidate();
-//    ReleaseDC(this->Handle, this->Canvas->Handle);
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFormSub::FormMouseLeave(TObject *Sender)
-{
 
-	//FormMain->SetFocus();
-    m_bIsIn = false;
-    //this->Refresh();
-    //m_bIsIn = true;
-
-
-    //FormMain->dxRibbon1Tab1->Active = true;
-#if 0
-
-	HWND hWndForeground = GetForegroundWindow();
-
-    DWORD Strange = GetWindowThreadProcessId(hWndForeground, NULL);
-    DWORD My = GetWindowThreadProcessId(this->WindowHandle, NULL);
-    AttachThreadInput(My, Strange, true);
-    SetForegroundWindow(hWndForeground);
-    BringWindowToTop(hWndForeground);
-
-    //AttachThreadInput(
-    //SetFocus(hWndForeground);
-
-
-#endif
-
-
-
-#if 0
-	//this->Caption = L"Mouse Leave";
-    HWND hWnd = GetForegroundWindow();
-    DWORD fromId = GetCurrentThreadId();
-    DWORD toId = GetWindowThreadProcessId(hWnd, NULL);
-    AttachThreadInput(fromId, toId, true);
-    //HWND focus = GetFocus();
-
-    wchar_t tempStr[100] = {0, };
-    GetWindowText(hWnd, tempStr, 100);
-    UnicodeString t_Str = tempStr;
-    //ShowMessage(t_Str);
-#endif
-
-
-
-    if(this->Focused()) {
-        this->Caption = L"Focused";
-    } else {
-        this->Caption = L"Un-Focused";
-    }
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TFormSub::FormMouseEnter(TObject *Sender)
-{
-	m_bIsIn = true;
-	//this->Caption = L"Mouse Enter";
-    //this->SetFocus();
-    //this->Refresh();
-}
-//---------------------------------------------------------------------------
 
 void __fastcall TFormSub::FormClose(TObject *Sender, TCloseAction &Action)
 {

@@ -92,21 +92,17 @@ __published:	// IDE-managed Components
 	TdxBarLargeButton *dxBarLargeButton6;
 	TAdvMemo *memo;
 	TPageControl *PageControl;
-	TTimer *Timer1;
 	void __fastcall btn_NewClick(TObject *Sender);
 	void __fastcall btn_DeleteClick(TObject *Sender);
 	void __fastcall btn_TestClick(TObject *Sender);
 	void __fastcall btn_Shape_RectClick(TObject *Sender);
-	void __fastcall PageControlMouseLeave(TObject *Sender);
-	void __fastcall Timer1Timer(TObject *Sender);
-	void __fastcall FormClick(TObject *Sender);
 
 private:	// User declarations
 public:		// User declarations
 	__fastcall TFormMain(TComponent* Owner);
 
 public: // Member Variables
-	TFormSub* m_SubForm;
+
 
 public: // Member Functions
 	void __fastcall InitProgram();

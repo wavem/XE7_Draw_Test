@@ -13,7 +13,6 @@ object FormMain: TFormMain
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
-  OnClick = FormClick
   PixelsPerInch = 96
   TextHeight = 13
   object dxRibbon1: TdxRibbon
@@ -160,7 +159,6 @@ object FormMain: TFormMain
     Height = 652
     Align = alClient
     TabOrder = 6
-    OnMouseLeave = PageControlMouseLeave
   end
   object BarMgr: TdxBarManager
     Font.Charset = DEFAULT_CHARSET
@@ -808,10 +806,5 @@ object FormMain: TFormMain
       Visible = ivAlways
       Width = 60
     end
-  end
-  object Timer1: TTimer
-    Interval = 500
-    OnTimer = Timer1Timer
-    Left = 752
   end
 end

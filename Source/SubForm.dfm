@@ -15,8 +15,6 @@ object FormSub: TFormSub
   Visible = True
   OnClose = FormClose
   OnMouseDown = FormMouseDown
-  OnMouseEnter = FormMouseEnter
-  OnMouseLeave = FormMouseLeave
   OnMouseMove = FormMouseMove
   OnMouseUp = FormMouseUp
   OnPaint = FormPaint

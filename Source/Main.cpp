@@ -100,13 +100,13 @@ void __fastcall TFormMain::btn_NewClick(TObject *Sender)
     // Add Routine
     TTabSheet* temp = new TTabSheet(PageControl);
     temp->PageControl = PageControl;
-    tempStr.sprintf(L"Page%d", s_PageNumber++);
+    tempStr.sprintf(L"Page%d", s_PageNumber);
     temp->Caption = tempStr;
 
     // Set New Page
     PageControl->ActivePageIndex = temp->PageIndex;
 
-
+	// Create New Panel
     TPanel* t_Panel = new TPanel(PageControl->ActivePage);
     t_Panel->Parent = PageControl->ActivePage;
 
@@ -114,35 +114,23 @@ void __fastcall TFormMain::btn_NewClick(TObject *Sender)
     t_pnName = L"pn_" + tempStr;
     t_Panel->Name = t_pnName;
     t_Panel->Color = clRed; // Doesn't works
-    t_Panel->Caption = L"Caption_" + tempStr;
+    t_Panel->Caption = L"";
 
     t_Panel->Visible = true;
     t_Panel->Show();
 
 
-
-    // Test Code
-    m_SubForm = NULL;
-    //m_SubForm = new TFormSub(NULL);
-    //m_SubForm->Show();
-
     // Add Sub-Form Routine
 	TFormSub* p_SubForm = new TFormSub(t_Panel);
-    //TFormSub* p_SubForm = new TFormSub(NULL);
     p_SubForm->Parent = t_Panel;
     p_SubForm->Visible = true;
     p_SubForm->Left = 0;
     p_SubForm->Top = 0;
-    //p_SubForm->Show();
-    //p_SubForm->ShowModal();  // Do Not This !!
-    //Application->ProcessMessages();
-    PrintMsg(L"New Form !!");
+    tempStr.sprintf(L"Form Created %d", s_PageNumber);
+    PrintMsg(tempStr);
 
-
-
-
-
-
+    // End Routine
+    s_PageNumber++;
 }
 //---------------------------------------------------------------------------
 
@@ -169,14 +157,8 @@ void __fastcall TFormMain::btn_DeleteClick(TObject *Sender)
 
 void __fastcall TFormMain::btn_TestClick(TObject *Sender)
 {
-	if(this->Focused()) {
-        PrintMsg(L"Main Focused");
-    } else {
-    	PrintMsg(L"Main is not focused");
-    }
-
 	UnicodeString tempStr = L"";
-    tempStr.sprintf(L"Current Page Index : %d", PageControl->ActivePageIndex);
+    //tempStr.sprintf(L"Current Page Index : %d", PageControl->ActivePageIndex);
     //PrintMsg(tempStr);
 
     // Test Code
@@ -197,34 +179,5 @@ void __fastcall TFormMain::btn_Shape_RectClick(TObject *Sender)
     TFormSub* p_SubForm = (TFormSub*)PageControl->ActivePage->Components[0]->Components[0];
     unsigned int t_ObjectType = 1; // Rectangle
     SendMessage(p_SubForm->Handle, MSG_CMD_DRAW_ITEM, t_ObjectType, 0x10);
-    //PostMessage(p_SubForm->Handle, MSG_CMD_DRAW_ITEM, t_ObjectType, 0x10);
 }
 //---------------------------------------------------------------------------
-
-void __fastcall TFormMain::PageControlMouseLeave(TObject *Sender)
-{
-	PrintMsg(L"Mouse Leave");
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TFormMain::Timer1Timer(TObject *Sender)
-{
-	//
-    static int temp = 0;
-    this->Caption = temp;
-    temp++;
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TFormMain::FormClick(TObject *Sender)
-{
-	if(this->Focused()) {
-    	PrintMsg(L"MF is Focused !!");
-
-    } else {
-        PrintMsg(L"MF not Focused");
-    }
-}
-//---------------------------------------------------------------------------
-
-
