@@ -96,6 +96,7 @@ __published:	// IDE-managed Components
 	void __fastcall btn_DeleteClick(TObject *Sender);
 	void __fastcall btn_TestClick(TObject *Sender);
 	void __fastcall btn_Shape_RectClick(TObject *Sender);
+	void __fastcall dxBarLargeButton5Click(TObject *Sender);
 
 private:	// User declarations
 public:		// User declarations

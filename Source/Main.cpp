@@ -167,21 +167,6 @@ void __fastcall TFormMain::btn_TestClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFormMain::btn_Shape_RectClick(TObject *Sender)
-{
-	// Pre Return
-    if(PageControl->PageCount == 0) {
-    	PrintMsg(L"There is no Pages");
-        return;
-    }
-
-    // Get Selected Form
-    TFormSub* p_SubForm = (TFormSub*)PageControl->ActivePage->Components[0]->Components[0];
-    unsigned int t_ObjectType = 1; // Rectangle
-    SendMessage(p_SubForm->Handle, MSG_CMD_DRAW_ITEM, t_ObjectType, 0x10);
-}
-//---------------------------------------------------------------------------
-
 void __fastcall TFormMain::ReceiveMsgFromSubForm(TMessage &_msg) {
 	unsigned int t_wParam = _msg.WParam;
 	int t_lParam = _msg.LParam;
@@ -193,3 +178,34 @@ void __fastcall TFormMain::ReceiveMsgFromSubForm(TMessage &_msg) {
 	PrintMsg(tempStr);
 }
 //---------------------------------------------------------------------------
+
+void __fastcall TFormMain::btn_Shape_RectClick(TObject *Sender)
+{
+	// Pre Return
+    if(PageControl->PageCount == 0) {
+    	PrintMsg(L"There is no Pages");
+        return;
+    }
+
+    // Get Selected Form
+    TFormSub* p_SubForm = (TFormSub*)PageControl->ActivePage->Components[0]->Components[0];
+    unsigned int t_ObjectType = SHAPE_RECTANGLE; // Rectangle
+    SendMessage(p_SubForm->Handle, MSG_CMD_DRAW_ITEM, t_ObjectType, 0x10);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::dxBarLargeButton5Click(TObject *Sender)
+{
+	// Pre Return
+    if(PageControl->PageCount == 0) {
+    	PrintMsg(L"There is no Pages");
+        return;
+    }
+
+    // Get Selected Form
+    TFormSub* p_SubForm = (TFormSub*)PageControl->ActivePage->Components[0]->Components[0];
+    unsigned int t_ObjectType = SHAPE_CIRCLE; // Rectangle
+    SendMessage(p_SubForm->Handle, MSG_CMD_DRAW_ITEM, t_ObjectType, 0x10);
+}
+//---------------------------------------------------------------------------
+

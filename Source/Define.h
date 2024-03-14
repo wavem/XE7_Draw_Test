@@ -8,7 +8,7 @@
 
 // Version Info
 #define PROGRAM_VERSION			L"Version : 0.0.1"
-#define PROGRAM_UPDATE_DATE     L"Update Date : 2024-03-05  PM 22:47"
+#define PROGRAM_UPDATE_DATE     L"Update Date : 2024-03-05  PM 23:29"
 
 
 // MESSAGE ID
@@ -26,6 +26,13 @@
 #define RESIZING_DIR_RIGHTBOTTOM	4
 #define RESIZING_DIR_RIGHT			5
 #define RESIZING_DIR_BOTTOM			6
+
+// SHAPE
+#define SHAPE_RECTANGLE		1
+#define SHAPE_CIRCLE        2
+#define SHAPE_TRIANGLE		3
+#define SHAPE_ROUNTRECT		4
+#define SHAPE_LINE			5
 
 
 
