@@ -28,7 +28,6 @@ public:		// User declarations
 
 public: // Member Variables
 	bool m_bIsDrawing;
-    std::vector<CDrawItem> m_vDrawItem;
     std::vector<CItemObject> m_vItemObject;
     TRect m_Rect;
     bool m_bIsFirstClicked;
@@ -47,12 +46,12 @@ public: // Member Variables
     int m_MovingX;
     int m_MovingY;
 
-    CDrawItem* m_SelectedItem;
+    CItemObject* m_SelectedItem;
 
 public: // Member Functions
 	bool __fastcall AddItemObject(int _Type, TRect _rect);
     void __fastcall PrintMsg(UnicodeString _str);
-    CDrawItem* __fastcall GetDrawItem(TPoint _point);
+    CItemObject* __fastcall GetItemObject(TPoint _point);
     void __fastcall UnSelectAllItem();
     void __fastcall StartDrawing(int _ObjectType);
     void __fastcall StopDrawing();

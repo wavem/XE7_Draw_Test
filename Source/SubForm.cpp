@@ -81,7 +81,7 @@ void __fastcall TFormSub::FormMouseDown(TObject *Sender, TMouseButton Button, TS
     // Moving Routine
     if(m_bCanMoving) { // bCanMoving 이 참이라함은, 이미 선택된 객체가 있다는 소리임.
         m_bNowMoving = true;
-        m_Rect = m_SelectedItem->rect;
+        m_Rect = m_SelectedItem->Rect;
         m_MovingX = X;
         m_MovingY = Y;
         return;
@@ -90,7 +90,7 @@ void __fastcall TFormSub::FormMouseDown(TObject *Sender, TMouseButton Button, TS
     // Re-Sizing Routine
     if(m_bCanResizing) {
     	m_bNowResizing = true;
-        m_Rect = m_SelectedItem->rect;
+        m_Rect = m_SelectedItem->Rect;
         m_MovingX = X;
         m_MovingY = Y;
         return;
@@ -100,13 +100,13 @@ void __fastcall TFormSub::FormMouseDown(TObject *Sender, TMouseButton Button, TS
     TPoint t_Point;
     t_Point.x = X;
     t_Point.y = Y;
-    CDrawItem* t_DrawItem = GetDrawItem(t_Point);
-    if(t_DrawItem) {
+    CItemObject* t_ItemObject = GetItemObject(t_Point);
+    if(t_ItemObject) {
     	tempStr = L"Exist : ";
-    	tempStr += t_DrawItem->Name;
+    	tempStr += t_ItemObject->ID;
         UnSelectAllItem();
-        t_DrawItem->bIsSelected = true;
-        m_SelectedItem = t_DrawItem;
+        t_ItemObject->Selected = true;
+        m_SelectedItem = t_ItemObject;
         Invalidate();
     	PrintMsg(tempStr);
     } else {
@@ -119,26 +119,13 @@ void __fastcall TFormSub::FormMouseDown(TObject *Sender, TMouseButton Button, TS
 //---------------------------------------------------------------------------
 
 void __fastcall TFormSub::UnSelectAllItem() {
-	for(int i = 0 ; i < m_vDrawItem.size() ; i++) {
-    	m_vDrawItem[i].bIsSelected = false;
-    }
 
     // Delete Re-Sizing Rect
-    m_LTRect = TRect(-1, -1, -1, -1);
-    m_LBRect = TRect(-1, -1, -1, -1);
-    m_RTRect = TRect(-1, -1, -1, -1);
-    m_RBRect = TRect(-1, -1, -1, -1);
-
     memset(&m_LTRect, 0, sizeof(TRect));
     memset(&m_LBRect, 0, sizeof(TRect));
     memset(&m_RTRect, 0, sizeof(TRect));
     memset(&m_RBRect, 0, sizeof(TRect));
 
-    // Delete Selected Item
-    m_SelectedItem = NULL;
-
-
-    ////// New Routine
     // UnCheck Selected Property of Items
     for(int i = 0 ; i < m_vItemObject.size() ; i++) {
     	m_vItemObject[i].Selected = false;
@@ -149,12 +136,11 @@ void __fastcall TFormSub::UnSelectAllItem() {
 }
 //---------------------------------------------------------------------------
 
-CDrawItem* __fastcall TFormSub::GetDrawItem(TPoint _point) {
-    for(int i = m_vDrawItem.size() ; i >= 0  ; i--) {
-        if(m_vDrawItem[i].rect.Contains(_point)) {
+CItemObject* __fastcall TFormSub::GetItemObject(TPoint _point) {
+    for(int i = m_vItemObject.size() ; i >= 0  ; i--) {
+        if(m_vItemObject[i].Rect.Contains(_point)) {
 
-        	//m_vDrawItem[i].bIsSelected = true;
-        	return &m_vDrawItem[i];
+        	return &m_vItemObject[i];
         }
     }
     return NULL;
@@ -176,10 +162,10 @@ void __fastcall TFormSub::FormMouseMove(TObject *Sender, TShiftState Shift, int 
 
     // Moving Routine
     if(m_bNowMoving) {
-    	m_SelectedItem->rect.left = m_Rect.left + (X - m_MovingX);
-        m_SelectedItem->rect.top = m_Rect.top + (Y - m_MovingY);
-        m_SelectedItem->rect.right = m_Rect.right + (X - m_MovingX);
-        m_SelectedItem->rect.bottom = m_Rect.bottom + (Y - m_MovingY);
+    	m_SelectedItem->Rect.left = m_Rect.left + (X - m_MovingX);
+        m_SelectedItem->Rect.top = m_Rect.top + (Y - m_MovingY);
+        m_SelectedItem->Rect.right = m_Rect.right + (X - m_MovingX);
+        m_SelectedItem->Rect.bottom = m_Rect.bottom + (Y - m_MovingY);
     	Invalidate();
         return;
     }
@@ -192,29 +178,29 @@ void __fastcall TFormSub::FormMouseMove(TObject *Sender, TShiftState Shift, int 
         	t_dx = m_Rect.left + (X - m_MovingX);
             t_dy = m_Rect.top + (Y - m_MovingY);
             if(t_dx <= m_Rect.right - SIZE_MINIMUM && t_dy <= m_Rect.bottom - SIZE_MINIMUM) {
-            	m_SelectedItem->rect.left = t_dx;
-        		m_SelectedItem->rect.top = t_dy;
+            	m_SelectedItem->Rect.left = t_dx;
+        		m_SelectedItem->Rect.top = t_dy;
             }
         } else if(m_ResizingDirection == RESIZING_DIR_LEFTBOTTOM) {
         	t_dx = m_Rect.left + (X - m_MovingX);
             t_dy = m_Rect.bottom + (Y - m_MovingY);
             if(t_dx <= m_Rect.right - SIZE_MINIMUM && t_dy >= m_Rect.top + SIZE_MINIMUM) {
-            	m_SelectedItem->rect.left = t_dx;
-            	m_SelectedItem->rect.bottom = t_dy;
+            	m_SelectedItem->Rect.left = t_dx;
+            	m_SelectedItem->Rect.bottom = t_dy;
             }
         } else if(m_ResizingDirection == RESIZING_DIR_RIGHTTOP) {
         	t_dx = m_Rect.right + (X - m_MovingX);
             t_dy = m_Rect.top + (Y - m_MovingY);
             if(t_dx >= m_Rect.left + SIZE_MINIMUM && t_dy <= m_Rect.bottom - SIZE_MINIMUM) {
-            	m_SelectedItem->rect.right = t_dx;
-        		m_SelectedItem->rect.top = t_dy;
+            	m_SelectedItem->Rect.right = t_dx;
+        		m_SelectedItem->Rect.top = t_dy;
             }
         } else if(m_ResizingDirection == RESIZING_DIR_RIGHTBOTTOM) {
         	t_dx = m_Rect.right + (X - m_MovingX);
             t_dy = m_Rect.bottom + (Y - m_MovingY);
             if(t_dx >= m_Rect.left + SIZE_MINIMUM && t_dy >= m_Rect.top + SIZE_MINIMUM) {
-            	m_SelectedItem->rect.right = t_dx;
-        		m_SelectedItem->rect.bottom = t_dy;
+            	m_SelectedItem->Rect.right = t_dx;
+        		m_SelectedItem->Rect.bottom = t_dy;
             }
         } else {
             // Do Notting
@@ -248,9 +234,9 @@ void __fastcall TFormSub::FormMouseMove(TObject *Sender, TShiftState Shift, int 
         m_ResizingDirection = RESIZING_DIR_RIGHTTOP;
     } else {
     	// Check Re-Sizing Rect
-    	for(int i = 0 ; i < m_vDrawItem.size() ; i++) {
-            if(m_vDrawItem[i].bIsSelected) {
-                if(m_vDrawItem[i].rect.Contains(TPoint(X, Y))) {
+    	for(int i = 0 ; i < m_vItemObject.size() ; i++) {
+            if(m_vItemObject[i].Selected) {
+                if(m_vItemObject[i].Rect.Contains(TPoint(X, Y))) {
                     this->Cursor = crSizeAll;
                     m_bCanMoving = true;
                 } else {
@@ -299,10 +285,7 @@ void __fastcall TFormSub::FormMouseUp(TObject *Sender, TMouseButton Button, TShi
 bool __fastcall TFormSub::AddItemObject(int _Type, TRect _rect) {
 
 	UnicodeString tempStr = L"";
-    static unsigned int t_ID = 0;
-	CDrawItem t_DrawItem;
     CItemObject t_ItemObject;
-
 
     t_ItemObject.ID = MakeTemporaryID(_Type); // Making Temporary ID
     t_ItemObject.ObjectType = _Type;
@@ -312,25 +295,10 @@ bool __fastcall TFormSub::AddItemObject(int _Type, TRect _rect) {
     // Add to Vector
     m_vItemObject.push_back(t_ItemObject);
 
-    // Making ID
-    tempStr.sprintf(L"Type:%d, ID:%d", _Type, t_ID);
-    t_DrawItem.Name = tempStr;
-
-    // Set Inner Property
-    t_DrawItem.rect = _rect;
-    t_DrawItem.bIsSelected = true;
-
-
-	// Add to Member Vector
-    if(_Type = 1) { // Shape
-    	m_vDrawItem.push_back(t_DrawItem);
-    }
-
     // Set Selected Item
-	m_SelectedItem = &m_vDrawItem.back();
+	m_SelectedItem = &m_vItemObject.back();
 
     // End Routine
-    t_ID++;
 	return true;
 }
 //---------------------------------------------------------------------------
@@ -357,24 +325,22 @@ UnicodeString TFormSub::MakeTemporaryID(int _ObjectType) {
 
 void __fastcall TFormSub::FormPaint(TObject *Sender)
 {
-
-
     //this->Canvas->Ellipse(20, 30, 40, 50);
     //TPoint temp[4] = {Point(10, 10), Point(50, 10), Point(40, 20), Point(70, 70)};
     //this->Canvas->Polygon(temp, 3);
 
-
     // Draw Unselected Items
-    // Draw All Items
     for(int i = 0 ; i < m_vItemObject.size() ; i++) {
-    	//m_vItemObject[i].DrawItem(this->Canvas);
+    	if(m_vItemObject[i].Selected == false ) {
+        	m_vItemObject[i].DrawItem(this->Canvas);
+        }
     }
 
     TRect t_Rect;
-	for(int i = 0 ; i < m_vDrawItem.size() ; i++) {
-    	if(m_vDrawItem[i].bIsSelected) {
+	for(int i = 0 ; i < m_vItemObject.size() ; i++) {
+    	if(m_vItemObject[i].Selected) {
         	// Draw Selected Rectangle
-            t_Rect = m_vDrawItem[i].rect;
+            t_Rect = m_vItemObject[i].Rect;
             this->Canvas->DrawFocusRect(t_Rect);
 
             m_LTRect = TRect(t_Rect.left - 4, t_Rect.top - 4, t_Rect.left + 4, t_Rect.top + 4);
@@ -385,13 +351,10 @@ void __fastcall TFormSub::FormPaint(TObject *Sender)
             this->Canvas->Rectangle(m_LBRect);
             this->Canvas->Rectangle(m_RTRect);
             this->Canvas->Rectangle(m_RBRect);
-        } else {
-        	this->Canvas->Rectangle(m_vDrawItem[i].rect);
         }
     }
 
     if(m_bIsDrawing) this->Canvas->DrawFocusRect(m_Rect);
-    //Invalidate();
 }
 //---------------------------------------------------------------------------
 
