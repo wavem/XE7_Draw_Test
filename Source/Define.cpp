@@ -6,17 +6,6 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-
-CDrawItem::CDrawItem() {
-
-}
-//---------------------------------------------------------------------------
-
-CDrawItem::~CDrawItem() {
-
-}
-//---------------------------------------------------------------------------
-
 void CItemObject::DrawItem(TCanvas* _pCanvas) {
 	TCanvas* t_pCanvas = _pCanvas;
     t_pCanvas->Rectangle(Rect);
