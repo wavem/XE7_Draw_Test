@@ -29,6 +29,7 @@ public:		// User declarations
 public: // Member Variables
 	bool m_bIsDrawing;
     std::vector<CDrawItem> m_vDrawItem;
+    std::vector<CItemObject> m_vItemObject;
     TRect m_Rect;
     bool m_bIsFirstClicked;
 
@@ -49,10 +50,16 @@ public: // Member Variables
     CDrawItem* m_SelectedItem;
 
 public: // Member Functions
-	bool __fastcall AddDrawItem(TRect _rect, int _Type);
+	bool __fastcall AddItemObject(int _Type, TRect _rect);
     void __fastcall PrintMsg(UnicodeString _str);
     CDrawItem* __fastcall GetDrawItem(TPoint _point);
     void __fastcall UnSelectAllItem();
+    void __fastcall StartDrawing(int _ObjectType);
+    void __fastcall StopDrawing();
+
+    UnicodeString MakeTemporaryID(int _ObjectType);
+
+
 
 public: // User Message Handler
 	int m_ReceivedObjectType;
