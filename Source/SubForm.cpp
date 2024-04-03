@@ -355,11 +355,41 @@ void __fastcall TFormSub::FormPaint(TObject *Sender)
         }
     }
 
+    // Draw Drawing Item
+    TPoint t_Points[3] = {Point(m_Rect.Left, m_Rect.Bottom), Point(m_Rect.Right, m_Rect.Bottom), Point(m_Rect.Width() / 2 + m_Rect.Left, m_Rect.Top)};
     if(m_bIsDrawing) {
-    	this->Canvas->DrawFocusRect(m_Rect);
+    	switch(m_ReceivedObjectType) {
+            case SHAPE_RECTANGLE:
+            	this->Canvas->DrawFocusRect(m_Rect);
+            	break;
+
+            case SHAPE_CIRCLE:
+            	this->Canvas->DrawFocusRect(m_Rect);
+                this->Canvas->Ellipse(m_Rect);
+            	break;
+
+            case SHAPE_TRIANGLE:
+            	this->Canvas->DrawFocusRect(m_Rect);
+                this->Canvas->Polygon(t_Points, 2);
+            	break;
+
+            case SHAPE_ROUNTRECT:
+            	this->Canvas->DrawFocusRect(m_Rect);
+                this->Canvas->RoundRect(m_Rect, 20, 20);
+            	break;
+
+            case SHAPE_LINE:
+            	this->Canvas->MoveTo(m_Rect.Left, m_Rect.Top);
+                this->Canvas->LineTo(m_Rect.Right, m_Rect.Bottom);
+            	break;
+
+            default:
+            	break;
+        }
     }
 }
 //---------------------------------------------------------------------------
+
 
 
 
