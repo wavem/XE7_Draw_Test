@@ -140,6 +140,7 @@ public: // Unique Property
 public: // Member Functions
 	void CheckMousePointerIn(TPoint _Point);
     void DrawItem(TCanvas* _pCanvas);
+    //void DrawDrawingItem(TCanvas* _pCanvas);
 
 };
 

@@ -335,6 +335,7 @@ void __fastcall TFormSub::FormPaint(TObject *Sender)
         }
     }
 
+    // Draw Selected Item
     TRect t_Rect;
 	for(int i = 0 ; i < m_vItemObject.size() ; i++) {
     	if(m_vItemObject[i].Selected) {
@@ -350,10 +351,13 @@ void __fastcall TFormSub::FormPaint(TObject *Sender)
             this->Canvas->Rectangle(m_LBRect);
             this->Canvas->Rectangle(m_RTRect);
             this->Canvas->Rectangle(m_RBRect);
+            m_vItemObject[i].DrawItem(this->Canvas);
         }
     }
 
-    if(m_bIsDrawing) this->Canvas->DrawFocusRect(m_Rect);
+    if(m_bIsDrawing) {
+    	this->Canvas->DrawFocusRect(m_Rect);
+    }
 }
 //---------------------------------------------------------------------------
 
