@@ -30,6 +30,10 @@ public: // Member Variables
 	bool m_bIsDrawing;
     std::vector<CItemObject> m_vItemObject;
     TRect m_Rect;
+    UINT32 m_FirstClickedPointX;
+    UINT32 m_FirstClickedPointY;
+    UINT32 m_CurrentPositionX;
+    UINT32 m_CurrentPositionY;
     bool m_bIsFirstClicked;
 
     TRect m_LTRect;

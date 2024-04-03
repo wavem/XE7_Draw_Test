@@ -52,6 +52,10 @@ void __fastcall TFormSub::StartDrawing(int _ObjectType) {
     this->Cursor = crCross;
     UnSelectAllItem();
     memset(&m_Rect, 0, sizeof(m_Rect)); // ESSENTIAL !!!!!!!!!!!!!!!!!!!!!!!!
+    m_FirstClickedPointX = 0;
+    m_FirstClickedPointY = 0;
+    m_CurrentPositionX = 0;
+    m_CurrentPositionY = 0;
 
     m_bIsDrawing = true;
     Invalidate();
@@ -67,6 +71,9 @@ void __fastcall TFormSub::PrintMsg(UnicodeString _str) {
 void __fastcall TFormSub::FormMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y)
 {
+	m_FirstClickedPointX = X;
+    m_FirstClickedPointY = Y;
+
 	// Drawing Routine
     if(m_bIsDrawing) {
     	m_bIsFirstClicked = true;
@@ -137,7 +144,7 @@ void __fastcall TFormSub::UnSelectAllItem() {
 //---------------------------------------------------------------------------
 
 CItemObject* __fastcall TFormSub::GetItemObject(TPoint _point) {
-    for(int i = m_vItemObject.size() ; i >= 0  ; i--) {
+    for(int i = m_vItemObject.size() - 1 ; i >= 0  ; i--) {
         if(m_vItemObject[i].Rect.Contains(_point)) {
         	return &m_vItemObject[i];
         }
@@ -149,11 +156,25 @@ CItemObject* __fastcall TFormSub::GetItemObject(TPoint _point) {
 void __fastcall TFormSub::FormMouseMove(TObject *Sender, TShiftState Shift, int X,
           int Y)
 {
+	m_CurrentPositionX = X;
+    m_CurrentPositionY = Y;
 	// Drawing Routine
 	if(m_bIsDrawing && m_bIsFirstClicked) {
-    	m_Rect.right = X;
-    	m_Rect.bottom = Y;
 
+    	// Swap XY Point, If it is smaller than first clicked Point
+    	if(m_FirstClickedPointX > X) {
+        	m_Rect.left = X;
+        	m_Rect.right = m_FirstClickedPointX;
+        } else {
+        	m_Rect.right = X;
+        }
+
+        if(m_FirstClickedPointY > Y) {
+        	m_Rect.top = Y;
+        	m_Rect.bottom = m_FirstClickedPointY;
+        } else {
+        	m_Rect.bottom = Y;
+        }
         Invalidate();
         this->Canvas->DrawFocusRect(m_Rect);
         return;
@@ -255,7 +276,7 @@ void __fastcall TFormSub::FormMouseUp(TObject *Sender, TMouseButton Button, TShi
 	// Drawing Routine
 	if(m_bIsDrawing) {
     	m_bIsDrawing = false;
-        this->Canvas->Rectangle(m_Rect);
+        //this->Canvas->Rectangle(m_Rect);
 
         // Add Draw Item Routine Here
         UnSelectAllItem();
@@ -379,8 +400,8 @@ void __fastcall TFormSub::FormPaint(TObject *Sender)
             	break;
 
             case SHAPE_LINE:
-            	this->Canvas->MoveTo(m_Rect.Left, m_Rect.Top);
-                this->Canvas->LineTo(m_Rect.Right, m_Rect.Bottom);
+            	this->Canvas->MoveTo(m_FirstClickedPointX, m_FirstClickedPointY);
+                this->Canvas->LineTo(m_CurrentPositionX, m_CurrentPositionY);
             	break;
 
             default:
