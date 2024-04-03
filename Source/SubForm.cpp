@@ -129,6 +129,11 @@ void __fastcall TFormSub::UnSelectAllItem() {
     m_RTRect = TRect(-1, -1, -1, -1);
     m_RBRect = TRect(-1, -1, -1, -1);
 
+    memset(&m_LTRect, 0, sizeof(TRect));
+    memset(&m_LBRect, 0, sizeof(TRect));
+    memset(&m_RTRect, 0, sizeof(TRect));
+    memset(&m_RBRect, 0, sizeof(TRect));
+
     // Delete Selected Item
     m_SelectedItem = NULL;
 
@@ -145,8 +150,7 @@ void __fastcall TFormSub::UnSelectAllItem() {
 //---------------------------------------------------------------------------
 
 CDrawItem* __fastcall TFormSub::GetDrawItem(TPoint _point) {
-
-	for(int i = 0 ; i < m_vDrawItem.size() ; i++) {
+    for(int i = m_vDrawItem.size() ; i >= 0  ; i--) {
         if(m_vDrawItem[i].rect.Contains(_point)) {
 
         	//m_vDrawItem[i].bIsSelected = true;
