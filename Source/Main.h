@@ -88,15 +88,16 @@ __published:	// IDE-managed Components
 	TdxBarLargeButton *btn_Delete;
 	TdxBar *BarMgrBar2;
 	TdxBarLargeButton *btn_Shape_Rect;
-	TdxBarLargeButton *dxBarLargeButton5;
-	TdxBarLargeButton *dxBarLargeButton6;
+	TdxBarLargeButton *btn_Shape_Circle;
+	TdxBarLargeButton *btn_Shape_Triangle;
 	TAdvMemo *memo;
 	TPageControl *PageControl;
+	TdxBarLargeButton *btn_Shape_RoundRect;
+	TdxBarLargeButton *btn_Shape_Line;
 	void __fastcall btn_NewClick(TObject *Sender);
 	void __fastcall btn_DeleteClick(TObject *Sender);
 	void __fastcall btn_TestClick(TObject *Sender);
-	void __fastcall btn_Shape_RectClick(TObject *Sender);
-	void __fastcall dxBarLargeButton5Click(TObject *Sender);
+	void __fastcall ClickObjectButton(TObject *Sender);
 
 private:	// User declarations
 public:		// User declarations

@@ -102,13 +102,13 @@ void __fastcall TFormSub::FormMouseDown(TObject *Sender, TMouseButton Button, TS
     t_Point.y = Y;
     CItemObject* t_ItemObject = GetItemObject(t_Point);
     if(t_ItemObject) {
-    	tempStr = L"Exist : ";
-    	tempStr += t_ItemObject->ID;
+    	//tempStr = L"Exist : ";
+    	//tempStr += t_ItemObject->ID;
         UnSelectAllItem();
         t_ItemObject->Selected = true;
         m_SelectedItem = t_ItemObject;
         Invalidate();
-    	PrintMsg(tempStr);
+    	//PrintMsg(tempStr);
     } else {
     	// Reset Select Routine Here...
         UnSelectAllItem();
@@ -139,7 +139,6 @@ void __fastcall TFormSub::UnSelectAllItem() {
 CItemObject* __fastcall TFormSub::GetItemObject(TPoint _point) {
     for(int i = m_vItemObject.size() ; i >= 0  ; i--) {
         if(m_vItemObject[i].Rect.Contains(_point)) {
-
         	return &m_vItemObject[i];
         }
     }

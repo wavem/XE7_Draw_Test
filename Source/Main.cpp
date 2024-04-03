@@ -179,7 +179,12 @@ void __fastcall TFormMain::ReceiveMsgFromSubForm(TMessage &_msg) {
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFormMain::btn_Shape_RectClick(TObject *Sender)
+#if 0
+
+
+
+#endif
+void __fastcall TFormMain::ClickObjectButton(TObject *Sender)
 {
 	// Pre Return
     if(PageControl->PageCount == 0) {
@@ -187,24 +192,13 @@ void __fastcall TFormMain::btn_Shape_RectClick(TObject *Sender)
         return;
     }
 
-    // Get Selected Form
-    TFormSub* p_SubForm = (TFormSub*)PageControl->ActivePage->Components[0]->Components[0];
-    unsigned int t_ObjectType = SHAPE_RECTANGLE; // Rectangle
-    SendMessage(p_SubForm->Handle, MSG_CMD_DRAW_ITEM, t_ObjectType, 0x10);
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TFormMain::dxBarLargeButton5Click(TObject *Sender)
-{
-	// Pre Return
-    if(PageControl->PageCount == 0) {
-    	PrintMsg(L"There is no Pages");
-        return;
-    }
+    // Common
+	TdxBarLargeButton* p_Btn = (TdxBarLargeButton*)Sender;
+	int t_Tag = p_Btn->Tag;
 
     // Get Selected Form
     TFormSub* p_SubForm = (TFormSub*)PageControl->ActivePage->Components[0]->Components[0];
-    unsigned int t_ObjectType = SHAPE_CIRCLE; // Rectangle
+    unsigned int t_ObjectType = t_Tag;
     SendMessage(p_SubForm->Handle, MSG_CMD_DRAW_ITEM, t_ObjectType, 0x10);
 }
 //---------------------------------------------------------------------------
